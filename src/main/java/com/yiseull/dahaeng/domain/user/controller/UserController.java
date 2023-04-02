@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -49,6 +51,12 @@ public class UserController {
     @PostMapping("/{userId}/nickname")
     public ResponseEntity<UserResponse.Profile> updateNickname(@PathVariable int userId, @RequestParam String nickname) {
         return ResponseEntity.ok(userService.updateNickname(userId, nickname));
+    }
+
+    @PostMapping("/{userId}/password")
+    public ResponseEntity updateNickname(@PathVariable int userId, @RequestBody Map<String, Object> request) {
+        userService.updatePassword(userId, (String) request.get("password"));
+        return ResponseEntity.ok().build();
     }
 
 }

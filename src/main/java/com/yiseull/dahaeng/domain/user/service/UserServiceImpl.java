@@ -65,4 +65,10 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
+    public void updatePassword(int userId, String password) {
+        User findUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException());  //  Custom Exception 으로 변경하기
+        findUser.updatePassword(password);
+    }
+
 }

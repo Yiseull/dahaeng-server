@@ -17,4 +17,6 @@ public interface UserService {
 
     UserResponse.Profile updateNickname(int userId, String nickname);
 
+    void updatePassword(int userId, String password);
+
 }
