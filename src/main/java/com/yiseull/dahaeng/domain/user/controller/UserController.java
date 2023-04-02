@@ -1,5 +1,6 @@
 package com.yiseull.dahaeng.domain.user.controller;
 
+import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.dto.UserRequest;
 import com.yiseull.dahaeng.domain.user.dto.UserResponse;
 import com.yiseull.dahaeng.domain.user.service.UserService;
@@ -43,6 +44,11 @@ public class UserController {
     public ResponseEntity<Boolean> checkNicknameValidate(@RequestParam String nickname) {
         log.info("nickname: {}", nickname);
         return ResponseEntity.ok(userService.CheckNicknameDuplicate(nickname));
+    }
+
+    @PostMapping("/{userId}/nickname")
+    public ResponseEntity<UserResponse.Profile> updateNickname(@PathVariable int userId, @RequestParam String nickname) {
+        return ResponseEntity.ok(userService.updateNickname(userId, nickname));
     }
 
 }

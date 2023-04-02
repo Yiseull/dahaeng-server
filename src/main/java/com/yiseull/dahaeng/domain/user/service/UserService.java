@@ -14,4 +14,7 @@ public interface UserService {
     boolean CheckEmailDuplicate(String email);
 
     boolean CheckNicknameDuplicate(String nickname);
+
+    UserResponse.Profile updateNickname(int userId, String nickname);
+
 }

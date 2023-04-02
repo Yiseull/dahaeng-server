@@ -22,4 +22,8 @@ public class User {
     @Column(nullable = false)
     private String nickname;
     private int userColor;
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
