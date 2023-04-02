@@ -9,7 +9,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User save(User user);
+    @Override
+    <S extends User> S save(S entity);
 
     Optional<User> findByEmailAndPassword(String email, String password);
 
