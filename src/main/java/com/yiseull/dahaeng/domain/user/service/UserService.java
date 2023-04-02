@@ -10,4 +10,8 @@ public interface UserService {
     UserResponse.Profile login(UserRequest.Login request);
 
     void signOut(int userId);
+
+    boolean CheckEmailDuplicate(String email);
+
+    boolean CheckNicknameDuplicate(String nickname);
 }

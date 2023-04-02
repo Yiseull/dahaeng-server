@@ -33,4 +33,16 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmailValidate(@RequestParam String email) {
+        log.info("email: {}", email);
+        return ResponseEntity.ok(userService.CheckEmailDuplicate(email));
+    }
+
+    @PostMapping("/check-nickname")
+    public ResponseEntity<Boolean> checkNicknameValidate(@RequestParam String nickname) {
+        log.info("nickname: {}", nickname);
+        return ResponseEntity.ok(userService.CheckNicknameDuplicate(nickname));
+    }
+
 }
