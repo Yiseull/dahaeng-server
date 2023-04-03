@@ -3,6 +3,7 @@ package com.yiseull.dahaeng.domain.user.controller;
 import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.dto.UserRequest;
 import com.yiseull.dahaeng.domain.user.dto.UserResponse;
+import com.yiseull.dahaeng.domain.user.service.MailService;
 import com.yiseull.dahaeng.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final MailService mailService;
 
     @PostMapping
     public ResponseEntity signUp(@RequestBody UserRequest.SignUp request) {
@@ -59,4 +61,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 이메일 인증
+     * @param request 요청 이메일
+     * @return 200
+     */
+    @PostMapping("/email")
+    public ResponseEntity<String> authenticateEmail(@RequestBody Map<String, Object> request) throws Exception {
+        String authCode = mailService.sendMail((String) request.get("email"));
+        return ResponseEntity.ok(authCode);
+    }
 }
