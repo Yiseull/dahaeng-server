@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Override
     public void signUp(UserRequest.SignUp request) {
@@ -78,6 +79,11 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(int userId, String password) {
         User findUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException());  //  Custom Exception 으로 변경하기
         findUser.updatePassword(password);
+    }
+
+    @Override
+    public String sendMail(String email, int option) throws Exception {
+        return mailService.sendMail(email, option);
     }
 
 }

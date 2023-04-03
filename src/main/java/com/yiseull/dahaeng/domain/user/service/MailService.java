@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -17,38 +17,23 @@ public class MailService {
     @Value("${spring.mail.username}") String fromEmail;
     private String authCode;
 
-    private void createCode() throws Exception {
+    private void createCode() {
 
-        Random random = new Random();
-        StringBuffer key = new StringBuffer();
-
-        for (int i = 0; i < 8; i++) {
-            int index = random.nextInt(3);
-
-            switch (index) {
-                case 0:
-                    key.append((char) ((int) random.nextInt(26) + 97));
-                    break;
-                case 1:
-                    key.append((char) ((int) random.nextInt(26) + 65));
-                    break;
-                case 2:
-                    key.append(random.nextInt(9));
-                    break;
-            }
-        }
-        authCode = key.toString();
+        String key = UUID.randomUUID().toString().replace("-", "");
+        authCode = key.substring(0, 10);
     }
 
-    private MimeMessage createMessage(String toEmail) throws Exception {
+    private MimeMessage createMessage(String toEmail, int option) throws Exception {
 
         createCode();
-        String subject = "Dahaeng 회원가입 인증 코드";
-        String text = "";
-        text += "<p>안녕하세요.</p>";
-        text += "<p>Dahaneg 인증 코드는 다음과 같습니다.</p>";
-        text += "<h3>" + authCode + "</h3>";
-        text += "<p>감사합니다.</p>";
+
+        String subject, text;
+        String[] result = new String[0];
+        if (option == 0) {  // option 0이면 회원가입, 1이면 비밀번호 찾기
+            result = signUp();
+        }
+        subject = result[0];
+        text = result[1];
 
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, toEmail);
@@ -59,8 +44,18 @@ public class MailService {
         return message;
     }
 
-    public String sendMail(String toEmail) throws Exception {
-        mailSender.send(createMessage(toEmail));
+    private String[] signUp() {
+        String subject = "Dahaeng 회원가입 인증 코드";
+        String text = "";
+        text += "<p>안녕하세요.</p>";
+        text += "<p>Dahaneg 인증 코드는 다음과 같습니다.</p>";
+        text += "<h3>" + authCode + "</h3>";
+        text += "<p>감사합니다.</p>";
+        return new String[] {subject, text};
+    }
+
+    public String sendMail(String toEmail, int option) throws Exception {
+        mailSender.send(createMessage(toEmail, option));
         return authCode;
     }
 

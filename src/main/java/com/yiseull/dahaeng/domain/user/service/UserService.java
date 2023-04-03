@@ -19,4 +19,6 @@ public interface UserService {
 
     void updatePassword(int userId, String password);
 
+    String sendMail(String email, int option) throws Exception;
+
 }
