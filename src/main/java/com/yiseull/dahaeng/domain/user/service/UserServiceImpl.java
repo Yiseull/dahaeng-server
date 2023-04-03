@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
     public void signUp(UserRequest.SignUp request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         request.setPassword(encodedPassword);
+        request.setUserColor((int)(Math.random() * 5));
         userRepository.save(request.toEntity(request));
     }
 

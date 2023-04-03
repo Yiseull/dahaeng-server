@@ -12,17 +12,23 @@ public class UserRequest {
         private String email;
         private String password;
         private String nickname;
+        private int userColor;
 
         public User toEntity(SignUp request) {
             return User.builder()
                     .email(this.email)
                     .password(this.password)
                     .nickname(this.nickname)
+                    .userColor(this.userColor)
                     .build();
         }
 
         public void setPassword(String password) {
             this.password = password;
+        }
+
+        public void setUserColor(int userColor) {
+            this.userColor = userColor;
         }
     }
 
