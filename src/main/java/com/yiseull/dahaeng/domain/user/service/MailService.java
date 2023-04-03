@@ -28,9 +28,11 @@ public class MailService {
         createCode();
 
         String subject, text;
-        String[] result = new String[0];
+        String[] result;
         if (option == 0) {  // option 0이면 회원가입, 1이면 비밀번호 찾기
             result = signUp();
+        } else {
+            result = findPassword();
         }
         subject = result[0];
         text = result[1];
@@ -51,6 +53,16 @@ public class MailService {
         text += "<p>Dahaneg 인증 코드는 다음과 같습니다.</p>";
         text += "<h3>" + authCode + "</h3>";
         text += "<p>감사합니다.</p>";
+        return new String[] {subject, text};
+    }
+
+    private String[] findPassword() {
+        String subject = "Dahaeng 임시 비밀번호 발급";
+        String text = "";
+        text += "<p>안녕하세요.</p>";
+        text += "<p>임시 비밀번호는 다음과 같습니다.</p>";
+        text += "<h3>" + authCode + "</h3>";
+        text += "<p>해당 비밀번호를 사용하여 로그인하시기 바랍니다.</p>";
         return new String[] {subject, text};
     }
 

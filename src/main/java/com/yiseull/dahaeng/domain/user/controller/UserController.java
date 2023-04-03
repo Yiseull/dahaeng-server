@@ -69,4 +69,15 @@ public class UserController {
         return ResponseEntity.ok(authCode);
     }
 
+    /**
+     * 비밀번호 찾기
+     * @param request 요청 이메일
+     * @return
+     */
+    @PostMapping("/password")
+    public ResponseEntity findPassword(@RequestBody Map<String, Object> request) throws Exception {
+        userService.sendMail((String) request.get("email"), 1);
+        return ResponseEntity.ok().build();
+    }
+
 }
