@@ -6,6 +6,7 @@ import com.yiseull.dahaeng.domain.user.dto.UserResponse;
 import com.yiseull.dahaeng.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -15,16 +16,23 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void signUp(UserRequest.SignUp request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        request.setPassword(encodedPassword);
         userRepository.save(request.toEntity(request));
     }
 
     @Override
     public UserResponse.Profile login(UserRequest.Login request) {
-        User user = userRepository.findByEmailAndPassword(request.getEmail(), request.getPassword())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException()); //  Custom Exception 으로 변경하기
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException(); //  Custom Exception 으로 변경하기
+        }
 
         return UserResponse.Profile.builder()
                 .userId(user.getUserId())

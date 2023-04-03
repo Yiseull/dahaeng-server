@@ -20,6 +20,10 @@ public class UserRequest {
                     .nickname(this.nickname)
                     .build();
         }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 
     @Getter
@@ -27,6 +31,10 @@ public class UserRequest {
     public static class Login {
         private String email;
         private String password;
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 
 }
