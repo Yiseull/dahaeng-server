@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(UserRequest.SignUp request) {
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new UserException(ErrorCode.DUPLICATE_EMAIL);
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         request.setPassword(encodedPassword);
         request.setUserColor((int)(Math.random() * 5));
