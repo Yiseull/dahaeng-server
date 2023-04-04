@@ -4,6 +4,8 @@ import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.dto.UserRequest;
 import com.yiseull.dahaeng.domain.user.dto.UserResponse;
 import com.yiseull.dahaeng.domain.user.repository.UserRepository;
+import com.yiseull.dahaeng.exception.ErrorCode;
+import com.yiseull.dahaeng.exception.UserException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,10 +32,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse.Profile login(UserRequest.Login request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException()); //  Custom Exception 으로 변경하기
+                .orElseThrow(() -> new UserException(ErrorCode.EMAIL_NOT_FOUND));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException(); //  Custom Exception 으로 변경하기
+            throw new UserException(ErrorCode.BAD_PASSWORD);
         }
 
         return UserResponse.Profile.builder()
@@ -62,9 +64,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse.Profile updateNickname(int userId, String nickname) {
         if (userRepository.existsByNickname(nickname)) {
-            throw new IllegalArgumentException();   //  Custom Exception 으로 변경하기
+            throw new UserException(ErrorCode.DUPLICATE_NICKNAME);
         }
-        User findUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException());  //  Custom Exception 으로 변경하기
+        User findUser = userRepository.findById(userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         findUser.updateNickname(nickname);
 
         return UserResponse.Profile.builder()
@@ -77,13 +79,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePassword(int userId, String password) {
-        User findUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException());  //  Custom Exception 으로 변경하기
+        User findUser = userRepository.findById(userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         findUser.updatePassword(passwordEncoder.encode(password));
     }
 
     @Override
     public String sendMail(String email, int option) throws Exception {
-        User findUser = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException());
+        User findUser = userRepository.findByEmail(email).orElseThrow(() -> new UserException(ErrorCode.EMAIL_NOT_FOUND));
         String authCode = mailService.sendMail(email, option);
 
         if (option == 1) {  // 비밀번호 찾기 경우 임시 비밀번호 업데이트
