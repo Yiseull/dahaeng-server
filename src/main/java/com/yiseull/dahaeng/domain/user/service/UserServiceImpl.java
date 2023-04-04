@@ -83,10 +83,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String sendMail(String email, int option) throws Exception {
+        User findUser = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException());
         String authCode = mailService.sendMail(email, option);
 
         if (option == 1) {  // 비밀번호 찾기 경우 임시 비밀번호 업데이트
-            User findUser = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException());
             String encodedPassword = passwordEncoder.encode(authCode);
             updatePassword(findUser.getUserId(), encodedPassword);
         }
