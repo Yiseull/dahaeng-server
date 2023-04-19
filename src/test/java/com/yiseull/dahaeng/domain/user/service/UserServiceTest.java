@@ -172,28 +172,4 @@ class UserServiceTest {
             assertThatThrownBy(() -> userService.login(request)).hasMessage("비밀번호가 일치하지 않습니다.");
         }
     }
-
-//    @DisplayName("회원 탈퇴")
-//    @Test
-//    void signOut(int userId) {}
-//
-//    @DisplayName("이메일 중복 검사")
-//    @Test
-//    boolean CheckEmailDuplicate(String email) {}
-//
-//    @DisplayName("닉네임 중복 검사")
-//    @Test
-//    boolean CheckNicknameDuplicate(String nickname) {}
-//
-//    @DisplayName("닉네임 변경")
-//    @Test
-//    UserResponse.Profile updateNickname(int userId, String nickname) {}
-//
-//    @DisplayName("비밀번호 변경")
-//    @Test
-//    void updatePassword(int userId, String password) {}
-//
-//    @DisplayName("이메일 인증")
-//    @Test
-//    String sendMail(String email, int option) throws Exception {}
 }
