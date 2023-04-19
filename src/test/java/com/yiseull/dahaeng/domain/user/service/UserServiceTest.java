@@ -3,7 +3,6 @@ package com.yiseull.dahaeng.domain.user.service;
 import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.dto.UserRequest;
 import com.yiseull.dahaeng.domain.user.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -37,23 +36,18 @@ class UserServiceTest {
     @DisplayName("회원가입 테스트")
     class signUp {
 
-        private UserRequest.SignUp request;
-
-        @BeforeEach
-        void createRequest() {
-            request = UserRequest.SignUp.builder()
-                    .email("test123@naver.com")
-                    .password("test123")
-                    .nickname("테스트다옹")
-                    .userColor(0)
-                    .build();
-        }
-
         @Test
         @DisplayName("회원가입 성공")
         void signUp_success() {
 
             // given
+            UserRequest.SignUp request = UserRequest.SignUp.builder()
+                    .email("test123@naver.com")
+                    .password("test123")
+                    .nickname("테스트다옹")
+                    .userColor(0)
+                    .build();
+
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode(request.getPassword());
 
@@ -83,11 +77,17 @@ class UserServiceTest {
         void signUp_fail() {
 
             // given
+            UserRequest.SignUp request = UserRequest.SignUp.builder()
+                    .email("test123@naver.com")
+                    .password("test123")
+                    .nickname("테스트다옹")
+                    .userColor(0)
+                    .build();
+
             given(userRepository.existsByEmail(any())).willReturn(true);
 
             // then
             assertThatThrownBy(() -> userService.signUp(request)).hasMessage("중복된 이메일입니다.");
         }
-
     }
 }
