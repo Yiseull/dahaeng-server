@@ -91,7 +91,7 @@ class UserServiceTest {
 
             given(userRepository.existsByEmail(anyString())).willReturn(true);
 
-            // then
+            // when
             assertThatThrownBy(() -> userService.signUp(request)).hasMessage("중복된 이메일입니다.");
         }
     }
@@ -139,5 +139,45 @@ class UserServiceTest {
             verify(userRepository, times(1)).findByEmail(anyString());
             verify(passwordEncoder, times(1)).matches(anyString(), anyString());
         }
+
+        @DisplayName("등록된 이메일이 없는 경우")
+        @Test
+        void login_email_not_found() {
+
+            // given
+            UserRequest.Login request = UserRequest.Login.builder()
+                    .email("test123@naver.com")
+                    .password("test123")
+                    .build();
+
+            given(userRepository.findByEmail(anyString())).willReturn(Optional.ofNullable(null));
+
+            // when
+            assertThatThrownBy(() -> userService.login(request)).hasMessage("등록된 이메일을 찾을 수 없습니다.");
+        }
     }
+
+//    @DisplayName("회원 탈퇴")
+//    @Test
+//    void signOut(int userId) {}
+//
+//    @DisplayName("이메일 중복 검사")
+//    @Test
+//    boolean CheckEmailDuplicate(String email) {}
+//
+//    @DisplayName("닉네임 중복 검사")
+//    @Test
+//    boolean CheckNicknameDuplicate(String nickname) {}
+//
+//    @DisplayName("닉네임 변경")
+//    @Test
+//    UserResponse.Profile updateNickname(int userId, String nickname) {}
+//
+//    @DisplayName("비밀번호 변경")
+//    @Test
+//    void updatePassword(int userId, String password) {}
+//
+//    @DisplayName("이메일 인증")
+//    @Test
+//    String sendMail(String email, int option) throws Exception {}
 }
