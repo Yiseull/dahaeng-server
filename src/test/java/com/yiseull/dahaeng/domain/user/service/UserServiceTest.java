@@ -155,6 +155,22 @@ class UserServiceTest {
             // when
             assertThatThrownBy(() -> userService.login(request)).hasMessage("등록된 이메일을 찾을 수 없습니다.");
         }
+
+        @DisplayName("비밀번호가 일치하지 않는 경우")
+        @Test
+        void login_bad_password() {
+
+            // given
+            UserRequest.Login request = UserRequest.Login.builder()
+                    .email("test123@naver.com")
+                    .password("test456")
+                    .build();
+
+            given(userRepository.findByEmail(anyString())).willReturn(Optional.ofNullable(user));
+
+            // when
+            assertThatThrownBy(() -> userService.login(request)).hasMessage("비밀번호가 일치하지 않습니다.");
+        }
     }
 
 //    @DisplayName("회원 탈퇴")
