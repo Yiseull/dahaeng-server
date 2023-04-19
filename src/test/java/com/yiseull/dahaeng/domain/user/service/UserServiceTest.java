@@ -51,8 +51,8 @@ class UserServiceTest {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode(request.getPassword());
 
-            given(userRepository.existsByEmail(any())).willReturn(false);
-            given(userRepository.save(any())).willReturn(User.builder()
+            given(userRepository.existsByEmail(anyString())).willReturn(false);
+            given(userRepository.save(any(User.class))).willReturn(User.builder()
                     .email(request.getEmail())
                     .password(encryptedPassword)
                     .nickname(request.getNickname())
@@ -68,8 +68,9 @@ class UserServiceTest {
             assertThat(request.getNickname()).isEqualTo(user.getNickname());
 
             // verify
+            verify(userRepository, times(1)).existsByEmail(anyString());
             verify(userRepository, times(1)).save(any(User.class));
-            verify(passwordEncoder, times(1)).encode(any(String.class));
+            verify(passwordEncoder, times(1)).encode(anyString());
         }
 
         @DisplayName("중복 이메일 예외")
@@ -84,7 +85,7 @@ class UserServiceTest {
                     .userColor(0)
                     .build();
 
-            given(userRepository.existsByEmail(any())).willReturn(true);
+            given(userRepository.existsByEmail(anyString())).willReturn(true);
 
             // then
             assertThatThrownBy(() -> userService.signUp(request)).hasMessage("중복된 이메일입니다.");
