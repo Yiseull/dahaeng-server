@@ -31,4 +31,11 @@ public class NoteServiceImpl implements NoteService {
                 .noteColor((int)(Math.random() * 5))
                 .build());
     }
+
+    @Override
+    public void deleteNote(int noteId) {
+        noteRepository.deleteById(noteId);
+    }
+
+
 }

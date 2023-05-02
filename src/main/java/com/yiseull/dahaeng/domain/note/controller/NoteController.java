@@ -21,16 +21,16 @@ public class NoteController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity deleteNote(@PathVariable int noteId) {
+        noteService.deleteNote(noteId);
+        return ResponseEntity.ok().build();
+    }
+
 //    @PostMapping("/{noteId}")
 //    public ResponseEntity updateNote(@PathVariable int noteId, @RequestParam int userId) {
 //
 //    }
-//
-//    @DeleteMapping("/{noteId}")
-//    public ResponseEntity deleteNote(@PathVariable int noteId, @RequestParam int userId) {
-//
-//    }
-//
 //    @GetMapping("/{noteId}")
 //    public ResponseEntity getNote(@PathVariable int noteId, @RequestParam int userId) {
 //
