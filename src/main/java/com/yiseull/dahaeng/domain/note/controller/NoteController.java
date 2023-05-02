@@ -38,4 +38,9 @@ public class NoteController {
     public ResponseEntity<NoteRequest.NoteInfo> getNote(@PathVariable int noteId) {
         return ResponseEntity.ok(noteService.getNote(noteId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<NoteRequest.NoteInfo>> getNoteList() {
+        return ResponseEntity.ok(noteService.getNoteList());
+    }
 }

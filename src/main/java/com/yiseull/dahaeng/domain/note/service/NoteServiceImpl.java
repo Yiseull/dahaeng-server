@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -63,5 +64,20 @@ public class NoteServiceImpl implements NoteService {
                 .endDate(findNote.getEndDate())
                 .description(findNote.getDescription())
                 .build();
+    }
+
+    @Override
+    public List<NoteRequest.NoteInfo> getNoteList() {
+        List<NoteRequest.NoteInfo> noteList = new ArrayList<>();
+        for (Note note : noteRepository.findAll()) {
+            noteList.add(NoteRequest.NoteInfo.builder()
+                    .title(note.getTitle())
+                    .startDate(note.getStartDate())
+                    .endDate(note.getEndDate())
+                    .description(note.getDescription())
+                    .build());
+        }
+
+        return noteList;
     }
 }
