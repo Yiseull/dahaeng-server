@@ -6,6 +6,7 @@ import com.yiseull.dahaeng.domain.note.repository.NoteRepository;
 import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.repository.UserRepository;
 import com.yiseull.dahaeng.exception.ErrorCode;
+import com.yiseull.dahaeng.exception.NoteException;
 import com.yiseull.dahaeng.exception.UserException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteRequest.NoteInfo updateNote(int noteId, NoteRequest.NoteInfo request) {
-        Note findNote = noteRepository.findById(noteId).orElseThrow(() -> new RuntimeException());
+        Note findNote = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ErrorCode.NOTE_NOT_FOUND));
         findNote.updateNote(request);
 
         return NoteRequest.NoteInfo.builder()
