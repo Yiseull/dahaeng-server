@@ -16,7 +16,7 @@ public class NoteController {
     private final NoteService noteService;
 
     @PostMapping
-    public ResponseEntity createNote(@RequestBody NoteRequest.CreateNote request, @RequestParam int userId) {
+    public ResponseEntity createNote(@RequestBody NoteRequest.NoteInfo request, @RequestParam int userId) {
         noteService.createNote(request, userId);
         return ResponseEntity.ok().build();
     }

@@ -20,7 +20,7 @@ public class NoteServiceImpl implements NoteService {
     private final UserRepository userRepository;
 
     @Override
-    public void createNote(NoteRequest.CreateNote request, int userId) {
+    public void createNote(NoteRequest.NoteInfo request, int userId) {
         if (!userRepository.existsById(userId))
             throw new UserException(ErrorCode.USER_NOT_FOUND);
 
