@@ -16,6 +16,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return makeResponse(e.getErrorCode());
     }
 
+    @ExceptionHandler(NoteException.class)
+    public ResponseEntity<ErrorResponse> handleNoteException(NoteException e) {
+        log.error("Note exception: Code:{}, Message:{}", e.getCode(), e.getMessage());
+        return makeResponse(e.getErrorCode());
+    }
+
     private ResponseEntity<ErrorResponse> makeResponse(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(ErrorResponse.builder()
