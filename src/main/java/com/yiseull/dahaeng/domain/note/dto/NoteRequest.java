@@ -7,7 +7,7 @@ public class NoteRequest {
 
     @Getter
     @NoArgsConstructor
-    public static class CreateNote {
+    public static class NoteInfo {
         private String title;
         private String startDate;
         private String endDate;
