@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Note 📕", description = " ㅍ")
+@Tag(name = "Note 📕", description = "노트 관련 API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
