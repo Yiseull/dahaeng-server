@@ -37,5 +37,18 @@ public class NoteServiceImpl implements NoteService {
         noteRepository.deleteById(noteId);
     }
 
+    @Override
+    public NoteRequest.NoteInfo updateNote(int noteId, NoteRequest.NoteInfo request) {
+        Note findNote = noteRepository.findById(noteId).orElseThrow(() -> new RuntimeException());
+        findNote.updateNote(request);
+
+        return NoteRequest.NoteInfo.builder()
+                .title(findNote.getTitle())
+                .startDate(findNote.getStartDate())
+                .endDate(findNote.getEndDate())
+                .description(findNote.getDescription())
+                .build();
+    }
+
 
 }

@@ -7,4 +7,6 @@ public interface NoteService {
     void createNote(NoteRequest.NoteInfo request, int userId);
 
     void deleteNote(int noteId);
+
+    NoteRequest.NoteInfo updateNote(int noteId, NoteRequest.NoteInfo request);
 }
