@@ -9,4 +9,6 @@ public interface NoteService {
     void deleteNote(int noteId);
 
     NoteRequest.NoteInfo updateNote(int noteId, NoteRequest.NoteInfo request);
+
+    NoteRequest.NoteInfo getNote(int noteId);
 }

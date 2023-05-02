@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -51,5 +53,15 @@ public class NoteServiceImpl implements NoteService {
                 .build();
     }
 
+    @Override
+    public NoteRequest.NoteInfo getNote(int noteId) {
+        Note findNote = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ErrorCode.NOTE_NOT_FOUND));
 
+        return NoteRequest.NoteInfo.builder()
+                .title(findNote.getTitle())
+                .startDate(findNote.getStartDate())
+                .endDate(findNote.getEndDate())
+                .description(findNote.getDescription())
+                .build();
+    }
 }

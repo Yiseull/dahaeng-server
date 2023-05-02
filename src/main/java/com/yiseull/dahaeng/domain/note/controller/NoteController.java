@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -32,13 +34,8 @@ public class NoteController {
         return ResponseEntity.ok(noteService.updateNote(noteId, request));
     }
 
-//    @GetMapping("/{noteId}")
-//    public ResponseEntity getNote(@PathVariable int noteId, @RequestParam int userId) {
-//
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity getNote(@RequestParam int userId) {
-//
-//    }
+    @GetMapping("/{noteId}")
+    public ResponseEntity<NoteRequest.NoteInfo> getNote(@PathVariable int noteId) {
+        return ResponseEntity.ok(noteService.getNote(noteId));
+    }
 }
