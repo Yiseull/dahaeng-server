@@ -5,7 +5,6 @@ import com.yiseull.dahaeng.domain.member.service.MemberService;
 import com.yiseull.dahaeng.domain.note.Note;
 import com.yiseull.dahaeng.domain.note.dto.NoteRequest;
 import com.yiseull.dahaeng.domain.note.repository.NoteRepository;
-import com.yiseull.dahaeng.domain.user.User;
 import com.yiseull.dahaeng.domain.user.repository.UserRepository;
 import com.yiseull.dahaeng.exception.ErrorCode;
 import com.yiseull.dahaeng.exception.NoteException;
@@ -78,9 +77,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteRequest.NoteInfo> getNoteList() {
+    public List<NoteRequest.NoteInfo> getNoteList(int userId) {
         List<NoteRequest.NoteInfo> noteList = new ArrayList<>();
-        for (Note note : noteRepository.findAll()) {
+        for (Integer noteId : memberService.findNoteList(userId)) {
+            Note note = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ErrorCode.NOTE_NOT_FOUND));
+
             noteList.add(NoteRequest.NoteInfo.builder()
                     .title(note.getTitle())
                     .startDate(note.getStartDate())

@@ -48,7 +48,7 @@ public class NoteController {
 
     @Operation(summary = "노트 목록 조회")
     @GetMapping
-    public ResponseEntity<List<NoteRequest.NoteInfo>> getNoteList() {
-        return ResponseEntity.ok(noteService.getNoteList());
+    public ResponseEntity<List<NoteRequest.NoteInfo>> getNoteList(@RequestParam int userId) {
+        return ResponseEntity.ok(noteService.getNoteList(userId));
     }
 }

@@ -14,5 +14,5 @@ public interface NoteService {
 
     NoteRequest.NoteInfo getNote(int noteId, int userId);
 
-    List<NoteRequest.NoteInfo> getNoteList();
+    List<NoteRequest.NoteInfo> getNoteList(int userId);
 }
