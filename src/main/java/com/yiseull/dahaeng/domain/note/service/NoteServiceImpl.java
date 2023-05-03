@@ -1,5 +1,7 @@
 package com.yiseull.dahaeng.domain.note.service;
 
+import com.yiseull.dahaeng.domain.member.dto.MemberDto;
+import com.yiseull.dahaeng.domain.member.service.MemberService;
 import com.yiseull.dahaeng.domain.note.Note;
 import com.yiseull.dahaeng.domain.note.dto.NoteRequest;
 import com.yiseull.dahaeng.domain.note.repository.NoteRepository;
@@ -22,17 +24,23 @@ public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
     private final UserRepository userRepository;
+    private final MemberService memberService;
 
     @Override
     public void createNote(NoteRequest.NoteInfo request, int userId) {
         if (!userRepository.existsById(userId))
             throw new UserException(ErrorCode.USER_NOT_FOUND);
 
-        noteRepository.save(Note.builder()
+        Note savedNote = noteRepository.save(Note.builder()
                 .title(request.getTitle())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .noteColor((int)(Math.random() * 5))
+                .noteColor((int) (Math.random() * 5))
+                .build());
+
+        memberService.addMember(MemberDto.MemberInfo.builder()
+                .userId(userId)
+                .noteId(savedNote.getNoteId())
                 .build());
     }
 
