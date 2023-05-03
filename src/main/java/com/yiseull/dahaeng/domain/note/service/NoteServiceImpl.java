@@ -63,8 +63,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteRequest.NoteInfo getNote(int noteId) {
+    public NoteRequest.NoteInfo getNote(int noteId, int userId) {
         Note findNote = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ErrorCode.NOTE_NOT_FOUND));
+
+        if (!memberService.existMember(userId, noteId))
+            throw new NoteException(ErrorCode.NOTE_FORBIDDEN);
 
         return NoteRequest.NoteInfo.builder()
                 .title(findNote.getTitle())

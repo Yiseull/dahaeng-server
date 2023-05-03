@@ -16,7 +16,8 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "1004", "중복된 이메일입니다."),
 
     // 노트
-    NOTE_NOT_FOUND(HttpStatus.NOT_FOUND, "2000", "노트를 찾을 수 없습니다.");
+    NOTE_NOT_FOUND(HttpStatus.NOT_FOUND, "2000", "노트를 찾을 수 없습니다."),
+    NOTE_FORBIDDEN(HttpStatus.FORBIDDEN, "2001", "권한이 없는 회원의 요청입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

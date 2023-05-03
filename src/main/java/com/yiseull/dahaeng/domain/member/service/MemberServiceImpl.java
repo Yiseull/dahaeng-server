@@ -21,4 +21,9 @@ public class MemberServiceImpl implements MemberService {
                 .noteId(member.getNoteId())
                 .build());
     }
+
+    @Override
+    public boolean existMember(int userId, int noteId) {
+        return memberRepository.existsByUserIdAndNoteId(userId, noteId);
+    }
 }

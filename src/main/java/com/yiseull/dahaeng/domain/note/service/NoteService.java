@@ -12,7 +12,7 @@ public interface NoteService {
 
     NoteRequest.NoteInfo updateNote(int noteId, NoteRequest.NoteInfo request);
 
-    NoteRequest.NoteInfo getNote(int noteId);
+    NoteRequest.NoteInfo getNote(int noteId, int userId);
 
     List<NoteRequest.NoteInfo> getNoteList();
 }
