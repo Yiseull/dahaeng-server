@@ -12,6 +12,7 @@ public class NoteRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class NoteInfo {
+        private int noteId;
         private String title;
         private String startDate;
         private String endDate;

@@ -54,6 +54,7 @@ public class NoteServiceImpl implements NoteService {
         findNote.updateNote(request);
 
         return NoteRequest.NoteInfo.builder()
+                .noteId(noteId)
                 .title(findNote.getTitle())
                 .startDate(findNote.getStartDate())
                 .endDate(findNote.getEndDate())
@@ -69,6 +70,7 @@ public class NoteServiceImpl implements NoteService {
             throw new NoteException(ErrorCode.NOTE_FORBIDDEN);
 
         return NoteRequest.NoteInfo.builder()
+                .noteId(noteId)
                 .title(findNote.getTitle())
                 .startDate(findNote.getStartDate())
                 .endDate(findNote.getEndDate())
@@ -83,6 +85,7 @@ public class NoteServiceImpl implements NoteService {
             Note note = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ErrorCode.NOTE_NOT_FOUND));
 
             noteList.add(NoteRequest.NoteInfo.builder()
+                    .noteId(noteId)
                     .title(note.getTitle())
                     .startDate(note.getStartDate())
                     .endDate(note.getEndDate())
